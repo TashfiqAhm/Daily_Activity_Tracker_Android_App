@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/orange"
+    android:orientation="vertical"
+    tools:context=".DescriptionNotes">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/note_description_toolbar_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:elevation="4dp"
+        android:theme="@style/Base.ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:popupTheme="@style/Base.ThemeOverlay.AppCompat.Light">
+
+    </android.support.v7.widget.Toolbar>
+
+    <TextView
+        android:id="@+id/description_notes_date_view_id"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/light_orange"
+        android:elevation="30dp"
+        android:gravity="center"
+        android:text="12/03/19"
+        android:textSize="20dp"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+        <EditText
+            android:id="@+id/description_notes_title_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/light_orange"
+            android:text="hello"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:inputType="textMultiLine"/>
+
+        <EditText
+            android:id="@+id/description_notes_body_id"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:maxLines="8"
+            android:minLines="4"
+            android:scrollbars="vertical"
+            android:inputType="textMultiLine"
+            android:gravity="start"/>
+
+    </LinearLayout>
+
+
+</LinearLayout>
