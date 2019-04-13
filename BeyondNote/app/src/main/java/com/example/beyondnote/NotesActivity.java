@@ -49,7 +49,6 @@ public class NotesActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notes);
-        //Log.d("dekhi", "onCreate: ");
 
         toolbar =findViewById(R.id.note_list_toolbar_id);
         setSupportActionBar(toolbar);
@@ -75,7 +74,6 @@ public class NotesActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        //Log.d("dekhi", "onStart: ");
         load_data();
         adapter = new NotesCustomAdapter(NotesActivity.this,note);
         listview.setAdapter(adapter);
@@ -132,13 +130,11 @@ public class NotesActivity extends AppCompatActivity {
             json_array.put(note.get(i).getJsonObject());
 
         String temp_st = json_array.toString();
-        //Log.d("ami dekhi", temp_st);
 
         try {
             FileOutputStream fos = getApplicationContext().openFileOutput("tempnote.json", Context.MODE_PRIVATE);
             fos.write(temp_st.getBytes());
             fos.close();
-            //Toast.makeText(NotesActivity.this, "Saved from list", Toast.LENGTH_SHORT).show();
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -151,10 +147,6 @@ public class NotesActivity extends AppCompatActivity {
 
     private void load_data()
     {
-        /*note.add(new Notes("shade","hudai tip mara 1"));
-        note.add(new Notes("ssdhade","hudai tip mara 2"));
-        note.add(new Notes("shasdde","hudai tip mara 3"));
-        note.add(new Notes("shadfdfeee","hudai tip mara 4"));*/
         String line;
         StringBuffer sb = new StringBuffer();
         note.clear();
@@ -205,10 +197,9 @@ public class NotesActivity extends AppCompatActivity {
                     count++;
                     mode.setTitle(count + " items selected");
                     delete_item_list.add(note.get(position));
-                    //Log.d("onItem", "onItemCheckedStateChanged: " + position);
-                    Notes nt = note.get(position);
-                    nt.setItemSelected(true);
-                    note.set(position,nt);
+                    Notes temp_note = note.get(position);
+                    temp_note.setItemSelected(true);
+                    note.set(position,temp_note);
                     adapter.notifyDataSetChanged();
                 }
                 else
@@ -249,9 +240,9 @@ public class NotesActivity extends AppCompatActivity {
                 {
                     case  R.id.delete_icon_id:
 
-                        for(Notes i : delete_item_list)
+                        for(Notes temp_note : delete_item_list)
                         {
-                            note.remove(i);
+                            note.remove(temp_note);
                             adapter.notifyDataSetChanged();
                         }
                         delete_item_list.clear();
@@ -269,11 +260,11 @@ public class NotesActivity extends AppCompatActivity {
             @SuppressLint("RestrictedApi")
             @Override
             public void onDestroyActionMode(ActionMode mode) {
-                for(Notes nm: delete_item_list)
+                for(Notes temp_note: delete_item_list)
                 {
-                    int position = adapter.getPosition(nm);
-                    nm.setItemSelected(false);
-                    note.set(position,nm);
+                    int position = adapter.getPosition(temp_note);
+                    temp_note.setItemSelected(false);
+                    note.set(position,temp_note);
                     adapter.notifyDataSetChanged();
                 }
                 count=0;

@@ -34,14 +34,14 @@
         </ListView>
 
         <android.support.design.widget.FloatingActionButton
-            android:id="@+id/checl_list_fab_button_id"
+            android:id="@+id/check_list_fab_button_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
             android:layout_marginRight="40dp"
             android:layout_marginBottom="50dp"
-            android:src="@drawable/ic_add_black_24dp"
+            android:src="@drawable/fab_add_icon"
             app:elevation="6dp" />
 
 

@@ -32,7 +32,7 @@ public class DescriptionNotes extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_description_notes);
-        //Log.d("dekhi", "onCreate2: ");
+
 
         toolbar =findViewById(R.id.note_description_toolbar_id);
         setSupportActionBar(toolbar);
@@ -75,14 +75,14 @@ public class DescriptionNotes extends AppCompatActivity {
             for(int i=0;i<note.size();i++)
                 json_array.put(note.get(i).getJsonObject());
 
-            String temp_st = json_array.toString();
-            //Log.d("ami dekhi", temp_st);
+            String temp_string = json_array.toString();
+
 
             try {
                 FileOutputStream fos = getApplicationContext().openFileOutput("tempnote.json", Context.MODE_PRIVATE);
-                fos.write(temp_st.getBytes());
+                fos.write(temp_string.getBytes());
                 fos.close();
-                //Toast.makeText(DescriptionNotes.this, "Saved from desc", Toast.LENGTH_SHORT).show();
+
 
             } catch (FileNotFoundException e) {
                 e.printStackTrace();

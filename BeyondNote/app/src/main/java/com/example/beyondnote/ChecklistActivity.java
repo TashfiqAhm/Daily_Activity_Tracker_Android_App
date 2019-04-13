@@ -54,7 +54,7 @@ public class ChecklistActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         listView = findViewById(R.id.check_list_listView_id);
-        fButton = findViewById(R.id.checl_list_fab_button_id);
+        fButton = findViewById(R.id.check_list_fab_button_id);
 
         fButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,14 +95,6 @@ public class ChecklistActivity extends AppCompatActivity {
 
     private void load_data()
     {
-        /*boxes.add(new Check_Boxes(false,"tasin"));
-        boxes.add(new Check_Boxes(false,"tasin2"));
-        boxes.add(new Check_Boxes(false,"tasin3"));
-        boxes.add(new Check_Boxes(false,"tasin4"));
-        boxes.add(new Check_Boxes(false,"tasin5"));
-        boxes.add(new Check_Boxes(false,"tasin6"));
-        boxes.add(new Check_Boxes(false,"tasin7"));*/
-
 
         String line;
         StringBuffer sb = new StringBuffer();
