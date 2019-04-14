@@ -1,13 +1,14 @@
 package com.example.beyondnote;
 
 import android.annotation.SuppressLint;
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -15,10 +16,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -32,14 +34,15 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Calendar;
 
 
-public class ChecklistActivity extends AppCompatActivity {
+public class ChecklistActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
     private Toolbar toolbar;
     private ListView listView;
-    private ArrayList<Check_Boxes>boxes = new ArrayList<Check_Boxes>();
+    private TextView tvDate;
+    private ArrayList<CheckBoxesModel>boxes = new ArrayList<CheckBoxesModel>();
     private ArrayList<ItemToDelete>delete_item_list = new ArrayList<ItemToDelete>();
     private FloatingActionButton fButton;
     private CheckListCustomAdapter adapter;
@@ -55,6 +58,10 @@ public class ChecklistActivity extends AppCompatActivity {
 
         listView = findViewById(R.id.check_list_listView_id);
         fButton = findViewById(R.id.check_list_fab_button_id);
+        tvDate = findViewById(R.id.check_list_date_text_id);
+
+        Calendar cal = Calendar.getInstance();
+        tvDate.setText(cal.get(Calendar.DAY_OF_MONTH) + "/" +  (cal.get(Calendar.MONTH) +1)+ "/"+ cal.get(Calendar.YEAR));
 
         fButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,17 +82,29 @@ public class ChecklistActivity extends AppCompatActivity {
 
     }
 
+    void change_date(View v)
+    {
+        DialogFragment date_picker_fragment = new DatePickerFragment();
+        date_picker_fragment.show(getSupportFragmentManager(), "date picker");
+    }
+
     @Override
     protected void onPause() {
         super.onPause();
         store_data();
     }
 
+    @Override
+    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+        tvDate.setText(dayOfMonth + "/" + (month+1) + "/"+ year);
+
+    }
+
     class  ItemToDelete
     {
-        Check_Boxes item;
+        CheckBoxesModel item;
         int position;
-        public ItemToDelete(Check_Boxes item,int position)
+        public ItemToDelete(CheckBoxesModel item, int position)
         {
             this.item = item;
             this.position = position;
@@ -126,7 +145,7 @@ public class ChecklistActivity extends AppCompatActivity {
             {
                 try {
                     JSONObject jobject = jarray.getJSONObject(i);
-                    Check_Boxes temp_box = new Check_Boxes(jobject.getBoolean("isSelected"),jobject.get("box_name").toString());
+                    CheckBoxesModel temp_box = new CheckBoxesModel(jobject.getBoolean("isSelected"),jobject.get("box_name").toString());
                     boxes.add(temp_box);
 
                 } catch (JSONException e) {
@@ -142,14 +161,12 @@ public class ChecklistActivity extends AppCompatActivity {
         for(int i=0;i<boxes.size();i++)
             json_array.put(boxes.get(i).getJsonObject());
 
-        String temp_st = json_array.toString();
-        //Log.d("ami dekhi", temp_st);
+        String temp_string = json_array.toString();
 
         try {
             FileOutputStream fos = getApplicationContext().openFileOutput("tempcheckbox.json", Context.MODE_PRIVATE);
-            fos.write(temp_st.getBytes());
+            fos.write(temp_string.getBytes());
             fos.close();
-            //Toast.makeText(ChecklistActivity.this, "Saved from list", Toast.LENGTH_SHORT).show();
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -175,7 +192,7 @@ public class ChecklistActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(!mEditText.getText().toString().trim().isEmpty())
                 {
-                    Check_Boxes _box = new Check_Boxes(false,mEditText.getText().toString().trim());
+                    CheckBoxesModel _box = new CheckBoxesModel(false,mEditText.getText().toString().trim());
                     boxes.add(_box);
                     adapter.notifyDataSetChanged();
                     mDialog.dismiss();
@@ -199,12 +216,10 @@ public class ChecklistActivity extends AppCompatActivity {
                 {
                     count++;
                     mode.setTitle(count + " items selected");
-                    //delete_item_list.add(boxes.get(position));
                     delete_item_list.add(new ItemToDelete(boxes.get(position),position));
-                    //Log.d("onItem", "onItemCheckedStateChanged: " + position);
-                    Check_Boxes nt = boxes.get(position);
-                    nt.setItemSelected(true);
-                    boxes.set(position,nt);
+                    CheckBoxesModel _box = boxes.get(position);
+                    _box.setItemSelected(true);
+                    boxes.set(position,_box);
                     adapter.notifyDataSetChanged();
                 }
                 else
@@ -212,7 +227,7 @@ public class ChecklistActivity extends AppCompatActivity {
                     count--;
                     mode.setTitle(count + " items selected");
                     delete_item_list.remove(new ItemToDelete(boxes.get(position),position));
-                    Check_Boxes nt = boxes.get(position);
+                    CheckBoxesModel nt = boxes.get(position);
                     nt.setItemSelected(false);
                     boxes.set(position,nt);
                     adapter.notifyDataSetChanged();
@@ -279,7 +294,7 @@ public class ChecklistActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                Check_Boxes box = boxes.get(position);
+                CheckBoxesModel box = boxes.get(position);
 
                 if(box.isSealected())
                     box.setSealected(false);
@@ -290,4 +305,6 @@ public class ChecklistActivity extends AppCompatActivity {
         });
 
     }
+
+
 }

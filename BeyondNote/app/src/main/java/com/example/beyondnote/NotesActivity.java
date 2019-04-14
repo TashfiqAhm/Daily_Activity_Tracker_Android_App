@@ -1,15 +1,16 @@
 package com.example.beyondnote;
 
 import android.annotation.SuppressLint;
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -18,8 +19,10 @@ import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -33,15 +36,17 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Calendar;
 
-public class NotesActivity extends AppCompatActivity {
+public class NotesActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
     private ListView listview;
     private Toolbar toolbar;
     private FloatingActionButton fButton;
-    private ArrayList<Notes> note = new ArrayList<Notes>();
+    private TextView tvDate;
+    private ArrayList<NotesModel> note = new ArrayList<NotesModel>();
     private NotesCustomAdapter adapter;
-    private ArrayList<Notes> delete_item_list = new ArrayList<Notes>();
+    private ArrayList<NotesModel> delete_item_list = new ArrayList<NotesModel>();
     private int count=0;
 
 
@@ -55,6 +60,12 @@ public class NotesActivity extends AppCompatActivity {
 
         listview = findViewById(R.id.note_listView_id);
         fButton = findViewById(R.id.note_fab_button_id);
+        tvDate = findViewById(R.id.note_list_date_text_id);
+
+        Calendar cal = Calendar.getInstance();
+        tvDate.setText(cal.get(Calendar.DAY_OF_MONTH) + "/" +  (cal.get(Calendar.MONTH) +1)+ "/"+ cal.get(Calendar.YEAR));
+
+
 
 
         listview.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
@@ -67,6 +78,12 @@ public class NotesActivity extends AppCompatActivity {
         });
         listview_all_listener();
 
+    }
+
+    void change_date(View v)
+    {
+        DialogFragment date_picker_fragment = new DatePickerFragment();
+        date_picker_fragment.show(getSupportFragmentManager(), "date picker");
     }
 
 
@@ -90,11 +107,11 @@ public class NotesActivity extends AppCompatActivity {
     private void add_new_note()
     {
         AlertDialog.Builder mBuilder = new AlertDialog.Builder(NotesActivity.this);
-        View mview = getLayoutInflater().inflate(R.layout.new_note_add_dialog,null);
-        final EditText mEditText = (EditText) mview.findViewById(R.id.new_note_promt_editText_id);
-        final Button mButton = (Button) mview.findViewById(R.id.new_note_promt_button_id);
+        View mView = getLayoutInflater().inflate(R.layout.new_note_add_dialog,null);
+        final EditText mEditText = (EditText) mView.findViewById(R.id.new_note_promt_editText_id);
+        final Button mButton = (Button) mView.findViewById(R.id.new_note_promt_button_id);
 
-        mBuilder.setView(mview);
+        mBuilder.setView(mView);
         final AlertDialog mDialog = mBuilder.create();
         mDialog.show();
 
@@ -103,7 +120,7 @@ public class NotesActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(!mEditText.getText().toString().trim().isEmpty())
                 {
-                    Notes _note = new Notes(mEditText.getText().toString().trim(),"");
+                    NotesModel _note = new NotesModel(mEditText.getText().toString().trim(),"");
                     note.add(_note);
                     adapter.notifyDataSetChanged();
 
@@ -177,7 +194,7 @@ public class NotesActivity extends AppCompatActivity {
             {
                 try {
                     JSONObject jobject = jarray.getJSONObject(i);
-                    Notes temp_note = new Notes(jobject.get("title").toString(),jobject.get("description").toString());
+                    NotesModel temp_note = new NotesModel(jobject.get("title").toString(),jobject.get("description").toString());
                     note.add(temp_note);
 
                 } catch (JSONException e) {
@@ -197,7 +214,7 @@ public class NotesActivity extends AppCompatActivity {
                     count++;
                     mode.setTitle(count + " items selected");
                     delete_item_list.add(note.get(position));
-                    Notes temp_note = note.get(position);
+                    NotesModel temp_note = note.get(position);
                     temp_note.setItemSelected(true);
                     note.set(position,temp_note);
                     adapter.notifyDataSetChanged();
@@ -207,7 +224,7 @@ public class NotesActivity extends AppCompatActivity {
                     count--;
                     mode.setTitle(count + " items selected");
                     delete_item_list.remove(note.get(position));
-                    Notes nt = note.get(position);
+                    NotesModel nt = note.get(position);
                     nt.setItemSelected(false);
                     note.set(position,nt);
                     adapter.notifyDataSetChanged();
@@ -240,7 +257,7 @@ public class NotesActivity extends AppCompatActivity {
                 {
                     case  R.id.delete_icon_id:
 
-                        for(Notes temp_note : delete_item_list)
+                        for(NotesModel temp_note : delete_item_list)
                         {
                             note.remove(temp_note);
                             adapter.notifyDataSetChanged();
@@ -260,7 +277,7 @@ public class NotesActivity extends AppCompatActivity {
             @SuppressLint("RestrictedApi")
             @Override
             public void onDestroyActionMode(ActionMode mode) {
-                for(Notes temp_note: delete_item_list)
+                for(NotesModel temp_note: delete_item_list)
                 {
                     int position = adapter.getPosition(temp_note);
                     temp_note.setItemSelected(false);
@@ -290,4 +307,10 @@ public class NotesActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+
+        tvDate.setText(dayOfMonth + "/" + (month+1) + "/"+ year);
+
+    }
 }

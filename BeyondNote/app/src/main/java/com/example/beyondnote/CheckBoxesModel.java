@@ -2,14 +2,14 @@ package com.example.beyondnote;
 
 import org.json.JSONObject;
 
-public class Check_Boxes {
+public class CheckBoxesModel {
 
 
     private boolean isSealected;
     private String box_name;
     private boolean item_selected;
 
-    public Check_Boxes(boolean isSealected,String box_name)
+    public CheckBoxesModel(boolean isSealected, String box_name)
     {
         this.isSealected = isSealected;
         this.box_name = box_name;

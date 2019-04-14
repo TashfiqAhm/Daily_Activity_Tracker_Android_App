@@ -6,4 +6,9 @@
     <color name="orange">#ED5A32</color>
     <color name="light_orange">#DF8369</color>
     <color name="black">#000000</color>
+    <color name="background_theme_1">#534D4D</color>
+    <color name="background_theme_2">#2C2A2A</color>
+    <color name="white">#ffffff</color>
+    <color name="selected_item_color">#968F8F</color>
+    <color name="fab_button_color">#B9B9B9</color>
 </resources>

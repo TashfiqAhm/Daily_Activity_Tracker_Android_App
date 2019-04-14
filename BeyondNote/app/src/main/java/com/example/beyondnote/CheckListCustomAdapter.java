@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -14,7 +13,7 @@ import java.util.ArrayList;
 public class CheckListCustomAdapter extends BaseAdapter {
 
     Activity activity;
-    ArrayList<Check_Boxes> boxes;
+    ArrayList<CheckBoxesModel> boxes;
     LayoutInflater inflater;
 
 
@@ -23,7 +22,7 @@ public class CheckListCustomAdapter extends BaseAdapter {
         this.activity = activity;
     }
 
-    public CheckListCustomAdapter(Activity activity, ArrayList<Check_Boxes>boxes )
+    public CheckListCustomAdapter(Activity activity, ArrayList<CheckBoxesModel>boxes )
     {
         this.activity = activity;
         this.boxes = boxes;
@@ -69,7 +68,7 @@ public class CheckListCustomAdapter extends BaseAdapter {
             holder = (ViewHolder)convertView.getTag();
         }
 
-        Check_Boxes box = boxes.get(position);
+        CheckBoxesModel box = boxes.get(position);
 
         holder.tvUserName.setText(box.getBox_name());
         holder.tvUserName.setSelected(box.isItemSelected());

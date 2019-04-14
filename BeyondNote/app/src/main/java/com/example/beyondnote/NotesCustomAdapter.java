@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 
 public class NotesCustomAdapter extends ArrayAdapter {
-    public NotesCustomAdapter(Context context, ArrayList<Notes> note)
+    public NotesCustomAdapter(Context context, ArrayList<NotesModel> note)
     {
         super(context, 0, note);
     }
@@ -20,7 +20,7 @@ public class NotesCustomAdapter extends ArrayAdapter {
     @Override
     public View getView(int position,View convertView,ViewGroup parent) {
 
-        Notes note = (Notes) getItem(position);
+        NotesModel note = (NotesModel) getItem(position);
         if(convertView ==null)
         {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.notes_sample_layout, parent, false);

@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Beyond Note</string>
+    <string name="menu_note_button_string">Notes</string>
+    <string name="menu_checkList_button_string">Check Lists</string>
+    <string name="menu_reminder_button_string">Reminders</string>
+    <string name="menu_money_mangement_button_string">Money Management</string>
+
 </resources>

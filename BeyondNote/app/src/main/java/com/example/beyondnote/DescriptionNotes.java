@@ -1,15 +1,10 @@
 package com.example.beyondnote;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import org.json.JSONArray;
 
@@ -23,9 +18,9 @@ public class DescriptionNotes extends AppCompatActivity {
     private Toolbar toolbar;
     private EditText descrption_text;
     private EditText title_text;
-    private ArrayList<Notes> note = new ArrayList<Notes>();
+    private ArrayList<NotesModel> note = new ArrayList<NotesModel>();
     private int position;
-    private JSONArray json_array = new JSONArray();
+    private JSONArray json_array;
 
 
     @Override
@@ -47,7 +42,7 @@ public class DescriptionNotes extends AppCompatActivity {
 
         if(bundle != null)
         {
-            note = (ArrayList<Notes>) getIntent().getSerializableExtra("list");
+            note = (ArrayList<NotesModel>) getIntent().getSerializableExtra("list");
             position = (int) getIntent().getIntExtra("position",0);
 
             title_text.setText(note.get(position).getTitle()) ;
@@ -70,6 +65,7 @@ public class DescriptionNotes extends AppCompatActivity {
     {
         if( !(note.get(position).getTitle().equals(title_text.getText().toString()) && note.get(position).getDescription().equals(descrption_text.getText().toString())) )
         {
+            json_array = new JSONArray();
             note.get(position).setTitle(title_text.getText().toString());
             note.get(position).setDescription(descrption_text.getText().toString());
             for(int i=0;i<note.size();i++)

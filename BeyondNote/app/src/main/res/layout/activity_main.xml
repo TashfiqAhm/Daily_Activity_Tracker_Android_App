@@ -7,7 +7,7 @@
     tools:context=".MainActivity"
     android:orientation="vertical"
     android:padding="5dp"
-    android:background="@color/orange"
+    android:background="@color/background_theme_2"
     android:gravity="center">
 
     <LinearLayout
@@ -38,7 +38,7 @@
         android:layout_height="wrap_content"
         android:text="𝙱𝙴𝚈𝙾𝙽𝙳 𝙽𝙾𝚃𝙴"
         android:textSize="50dp"
-        android:textColor="@color/black"
+        android:textColor="@color/white"
         android:textStyle="bold" />
 
 

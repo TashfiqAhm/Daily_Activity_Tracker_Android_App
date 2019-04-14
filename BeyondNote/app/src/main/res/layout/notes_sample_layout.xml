@@ -2,19 +2,21 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="#000000">
+    android:background="@color/black"
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/note_list_item_title_id"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginLeft="10dp"
-        android:text="Title"
+        android:background="@drawable/listview_selector"
         android:gravity="center|left"
+        android:paddingLeft="8dp"
+        android:text="Title"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textStyle="bold"
-        android:background="@drawable/listview_selector"/>
+        android:textColor="@color/white"/>
 
 
 </LinearLayout>

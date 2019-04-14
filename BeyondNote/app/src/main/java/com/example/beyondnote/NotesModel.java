@@ -5,12 +5,12 @@ import org.json.JSONObject;
 
 import java.io.Serializable;
 
-public class Notes implements Serializable {
+public class NotesModel implements Serializable {
     private String title;
     private String description;
     private boolean item_selected;
 
-    public Notes(String title,String description)
+    public NotesModel(String title, String description)
     {
         this.title = title;
         this.description = description;
